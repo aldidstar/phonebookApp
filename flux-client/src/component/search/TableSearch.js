@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class TableEdit extends React.Component {
+export default class TableSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: "", phone: "" };
@@ -18,23 +18,25 @@ export default class TableEdit extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.props.addChat(this.state.name, this.state.phone);
-    this.setState({ name: "", phone: ""});
+    this.props.filter(this.state.name, this.state.phone);
   }
+
+
+
+ 
 
   render() {
     return (
-     
-     
-      <div hidden className="container-add">
+      <div >
+      <div className="container-add">
         <div className="text-add">
-        <p>Edit Form</p>
+        <p>Searching Form</p>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div id="form-add">
           <label  className=" col-form-label d-inline">Name</label>
             <input
-              id="user-input"
+             
               type="text"
               value={this.state.name}
               onChange={this.handleChange}
@@ -43,30 +45,27 @@ export default class TableEdit extends React.Component {
             <label  className=" col-form-label d-inline">Phone</label>
             <input
               className="user-input"
-              name="description"
+              name="phone"
               value={this.state.phone}
               onChange={this.handleChange}
             />
           </div>
           <button
-            id="btn-post"
+      
             className="w-5 btn btn-lg btn-success"
             type="submit"
             value="save"
           >
-            Save
+            Search
           </button>
-          <button
-            id="btn-cancel"
-            className="w-5 btn btn-lg btn-warning"
-            type="button"
-            value="save"
-          >
-            Cancel
-          </button>
+         
         </form>
       </div>
-   
+     
+      <script>
+        
+      </script>
+      </div>
     );
   }
 }

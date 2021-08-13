@@ -30,6 +30,8 @@ class App extends Component {
       onAdd : TableActions.AddUser,
       onDelete : TableActions.DeleteUser,
       onResend : TableActions.ResendUser,
+      onFilter : TableActions.FilterUser,
+      onEdit : TableActions.EditUser,
     }
   }
 

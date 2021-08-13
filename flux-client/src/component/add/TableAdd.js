@@ -1,11 +1,15 @@
 import React from "react";
 
-export default class TableSearch extends React.Component {
+export default class TableAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: "", phone: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.addForm = this.addForm.bind(this);
+    this.cancelAdd = this.cancelAdd.bind(this);
+
+
   }
 
   handleChange(event) {
@@ -18,34 +22,31 @@ export default class TableSearch extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.props.addChat(this.state.name, this.state.phone);
+    this.props.add(this.state.name, this.state.phone);
     this.setState({ name: "", phone: ""});
   }
 
-  // componentDidUpdate(prevProps) {
-  //   // Typical usage (don't forget to compare props):
-  //   if (this.state.name) {
-  //     return this.state.name.includes(this.searchletter);
-  //   }
-  //   return this.items.filter((item) => {
-  //     if (this.searchletter) {
-  //       return item.letter.includes(this.searchletter);
-  //     } else if (this.searchfrequency) {
-  //       return item.frequency == this.searchfrequency;
-  //     } else {
-  //       return item; 
-  //     }
-  //   });
-  // }
+  addForm(event) {
+    event.preventDefault();
+    document.getElementById("container-add").hidden = false
+    document.getElementById("btn-add").hidden = true
 
- 
+  }
+
+  cancelAdd(event) {
+    event.preventDefault();
+    document.getElementById("container-add").hidden = true
+    document.getElementById("btn-add").hidden = false
+
+  }
 
   render() {
     return (
-      <div >
-      <div className="container-add">
+      <div>
+      <button onClick={this.addForm} id="btn-add" className="btn btn-primary">add</button>
+      <div hidden id="container-add" className="container-add">
         <div className="text-add">
-        <p>Searching Form</p>
+        <p>Adding Form</p>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div id="form-add">
@@ -60,7 +61,7 @@ export default class TableSearch extends React.Component {
             <label  className=" col-form-label d-inline">Phone</label>
             <input
               className="user-input"
-              name="description"
+              name="phone"
               value={this.state.phone}
               onChange={this.handleChange}
             />
@@ -71,9 +72,10 @@ export default class TableSearch extends React.Component {
             type="submit"
             value="save"
           >
-            Search
+            Add
           </button>
           <button
+          onClick={this.cancelAdd}
             id="btn-cancel"
             className="w-5 btn btn-lg btn-warning"
             type="button"
@@ -83,10 +85,6 @@ export default class TableSearch extends React.Component {
           </button>
         </form>
       </div>
-     
-      <script>
-        
-      </script>
       </div>
     );
   }

@@ -101,7 +101,44 @@ const Actions = {
     Actions.failedDeleteUser(id)
     throw err
   });
-  }
+  },
+
+  FilterUser(name, phone) {
+    dispatcher.dispatch({
+      type: "FILTER_USER",
+      name, phone
+    })},
+
+
+    drawEditUser(id, name, phone) {
+   dispatcher.dispatch({
+     type: "DRAW_EDIT_USER",
+     id, name, phone
+    })},
+
+    successEditUser(phonebooks) {
+      dispatcher.dispatch({
+        type: "SUCCESS_EDIT_USER",
+        phonebooks
+      })},
+
+      failedEditUser(id, name, phone) {
+        dispatcher.dispatch({
+          type: "FAILED_EDIT_USER",
+          id, name, phone
+        })},
+    
+    EditUser(id, name, phone) {
+      Actions.drawEditUser(id, name, phone)
+      axios.put(`http://localhost:3000/api/phonebooks/${id}`,{id,name,phone})
+      .then((phonebooks) => {
+        Actions.successEditUser(phonebooks);
+      })
+      .catch((err) => {
+        Actions.failedEditUser(id, name, phone);
+        throw err;
+      });
+    }
 };
 
 export default Actions;

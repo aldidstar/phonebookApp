@@ -13,6 +13,7 @@ export default function TableList(props){
           sent = {item.sent}
           resend={props.resend}
           remove={props.remove}
+          edit = {props.edit}
         />
       );
     });

@@ -42,10 +42,27 @@ class TableStore extends ReduceStore {
 
               case 'SUCCESS_DELETE_USER':
               return  state.delete(action.id)
+
+              case 'FILTER_USER':
+                return state.filter((item) => {
+                  if (action.name) {
+                   return  item.name.includes(action.name)}
+                   if (action.phone) {
+                    return  item.phone.includes(action.phone)}
+                  })
+                  case 'DRAW_EDIT_USER':
+                    return  state.set(action.id, new User({
+                      id: action.id,
+                      name: action.name,
+                      phone: action.phone,
+                      sent: true
+                    }))   
               
               case 'FAILED_DELETE_USER':
               case 'FAILED_RESEND_USER':
               case 'SUCCESS_ADD_USER':
+              case 'SUCCESS_EDIT_USER':
+              case 'FAILED_EDIT_USER':
                 default:
                   return state;
           }
