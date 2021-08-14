@@ -2,13 +2,13 @@ import React from "react";
 import TableList from "./TableList";
 import TableAdd from "./add/TableAdd";
 import TableSearch from "./search/TableSearch";
-
-
+import Pagination from "./Pagination";
 import Navbar from "./Navbar";
 
 export default class TableBox extends React.Component {
   componentDidMount() {
     this.props.onLoad();
+   
   }
 
   render() {
@@ -26,7 +26,7 @@ export default class TableBox extends React.Component {
             edit={this.props.onEdit}
 
             />
-       
+       <Pagination page={this.props.onLoad}  phonebooks={this.props.phonebooks}  />
           <br></br>
         </div>
       </div>

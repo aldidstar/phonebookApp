@@ -9,7 +9,10 @@ phonebooksRead:  (req, res) => {
       const data = Object.keys(snapshot.val()).map((o) =>
       Object.assign({ id: o }, snapshot.val()[o])
     );
-      res.json(data);
+    const dataplus = Object.keys(data).map((o) =>
+      Object.assign({ total: data.length }, data[o])
+    );
+      res.json({dataplus});
       userReference.off("value");
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);

@@ -10,11 +10,11 @@ const Actions = {
     });
   },
 
-  loadUser() {
+  loadUser(page) {
+    var currentPage = page || 1
     axios.get("http://localhost:3000/api/phonebooks")
       .then((phonebooks) => {
-          console.log(phonebooks)
-        Actions.drawUser(phonebooks.data);
+      Actions.drawUser(phonebooks.data.dataplus.slice((currentPage-1) * 3, currentPage * 3))
       })
       .catch((err) => {
         console.log(err)

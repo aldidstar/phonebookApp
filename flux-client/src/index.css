@@ -58,6 +58,9 @@ code {
   margin-top: 20px;
   margin-left: 4%;
   margin-right: 4%;
+}
 
-
+#pagination {
+  margin-left: 30%;
+  margin-top: 4%;
 }

@@ -5,7 +5,7 @@ export default function Navbar() {
         <nav className="navbar navbar-light bg-dark">
             <div className="container-fluid">
               <h1 id="navbar-text">
-                Phone Book Apps
+                PhoneBook With Redux
               </h1>
             </div>
           </nav>
