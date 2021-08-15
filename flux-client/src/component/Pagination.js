@@ -5,7 +5,7 @@ export default class Pagination extends React.Component {
     super(props);
     this.state = {
       currentPage: 1,
-      todosPerPage: 3,
+      usersPerPage: 3,
     };
 
   }
@@ -13,13 +13,18 @@ export default class Pagination extends React.Component {
   
 
   render() {
-    const { todosPerPage } = this.state;
+    const { usersPerPage } = this.state;
+    let totalData = []
+    this.props.phonebooks.forEach(item => {
+     totalData.push(item.total)
+    });
+
     // Logic for displaying page numbers
     const pageNumbers = [];
     
     for (
       let i = 1;
-      i <= Math.ceil(5 / todosPerPage);
+      i <= Math.ceil(totalData[0] / usersPerPage);
       i++
     ) {
       pageNumbers.push(i);

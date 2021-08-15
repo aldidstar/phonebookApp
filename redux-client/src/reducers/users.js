@@ -20,6 +20,7 @@ const users = (state = [], action) => {
           name: item.name,
           phone: item.phone,
           sent: true,
+          total: item.total
         };
       });
 

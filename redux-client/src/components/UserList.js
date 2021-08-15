@@ -16,7 +16,6 @@ export default function UserList(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      console.log('coba ambil')
     dispatch(loadUser());
   }, [dispatch]);
 
