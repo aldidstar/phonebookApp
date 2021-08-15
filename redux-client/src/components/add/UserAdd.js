@@ -22,11 +22,12 @@ export default function UserAdd () {
     setUser({...user, [name]: value})
   }
 
-//   handleSubmit(event) {
-//     event.preventDefault();
-//     this.props.add(this.state.name, this.state.phone);
-//     this.setState({ name: "", phone: ""});
-//   }
+ const handleSubmit = (event) => {
+    event.preventDefault();
+    setUser(initialUserState)
+    dispatch(addUser(user.name,user.phone));
+  };
+  
 
   const addForm = (event) => {
     event.preventDefault();
@@ -49,9 +50,7 @@ export default function UserAdd () {
         <div className="text-add">
         <p>Adding Form</p>
         </div>
-        <form onSubmit={(event) => {event.preventDefault();
-        dispatch(addUser(user.name,user.phone)); setUser('') }}
-        /*{handleSubmit}*/ >
+        <form onSubmit={handleSubmit} >
           
           <div id="form-add">
           <label  className=" col-form-label d-inline">Name</label>

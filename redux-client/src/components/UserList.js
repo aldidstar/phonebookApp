@@ -20,14 +20,14 @@ export default function UserList(props) {
     dispatch(loadUser());
   }, [dispatch]);
 
-  let nodeList = users.map((item, index) => <UserItem {...item} key={index} />);
+  let nodeList = users.map((item, index) => <UserItem {...item} key={index} index={index + 1} />);
 
   return (
     <div id="table-data">
       <table className="table table-striped">
         <thead>
           <tr>
-            {/* <th>#</th> */}
+            <th>#</th>
 
             <th>Name</th>
 

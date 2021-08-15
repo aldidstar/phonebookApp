@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { filterUser } from '../../actions/users'
+import { useDispatch } from 'react-redux';
 
 
 export default function UserSearch () {
@@ -11,6 +13,7 @@ export default function UserSearch () {
 
     const [user, setUser] = useState(initialUserState);
   
+    const dispatch = useDispatch();
    
   
 
@@ -20,10 +23,11 @@ export default function UserSearch () {
     const name = target.name;
     setUser({...user, [name]: value})
   }
-//   handleSubmit(event) {
-//     event.preventDefault();
-//     this.props.filter(this.state.name, this.state.phone);
-//   }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setUser(initialUserState)
+    dispatch(filterUser(user.name,user.phone));
+  };
 
 
 
@@ -35,7 +39,7 @@ export default function UserSearch () {
         <div className="text-add">
         <p>Searching Form</p>
         </div>
-        <form /*onSubmit={this.handleSubmit}*/>
+        <form onSubmit={handleSubmit}>
           <div id="form-add">
           <label  className=" col-form-label d-inline">Name</label>
             <input

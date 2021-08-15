@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { resendUser, deleteUser, editUser } from "../actions/users";
+import { useDispatch } from "react-redux";
 
 // export default class TableItem extends React.Component {
 //   constructor(props) {
@@ -30,7 +32,7 @@ import React from "react";
 //         <td>{this.props.index}</td>
 //         {!this.state.edit && (
 //           <td>
-//             <input   
+//             <input
 //               type="text"
 //               value={this.state.name}
 //               onChange={this.handleChange}
@@ -42,7 +44,7 @@ import React from "react";
 //         {!this.state.edit && (
 //           <td>
 //             <input
-              
+
 //               type="text"
 //               value={this.state.phone}
 //               onChange={this.handleChange}
@@ -81,7 +83,7 @@ import React from "react";
 //               onClick={() => this.setState({name: this.props.name, phone: this.props.phone, edit: false})} >
 //                 update
 //               </button>
-              
+
 //               <button
 //                 className="btn btn-danger"
 //                 onClick={() => this.props.remove(this.props.id)}
@@ -101,21 +103,100 @@ import React from "react";
 // import { resendUser } from '../actions/users'
 
 export default function UserItem(props) {
-    // const dispatch = useDispatch();
+  const initialUserState = {
+    name: "",
+    phone: "",
+    edit: true,
+  };
 
-    // const resend = () => dispatch(resendUser(props.username, props.name, props.age))
-    // const remove = () => { }
+  const [user, setUser] = useState(initialUserState);
 
-    return (
-        <tr>
-            <td>{props.name}</td>
-            <td>{props.phone}</td>
-            {/* <td>{props.age}</td> */}
-            <td>
-                <button type="button" className="btn btn-warning" /* onClick={props.sent ? remove : resend}>{props.sent ? 'Delete' : 'Resend'}*/>
-                </button>
+  const dispatch = useDispatch();
 
-            </td>
-        </tr>
-    )
+  const handleChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setUser({...user, [name]: value})
+   
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setUser(initialUserState);
+    dispatch(editUser(props.id, user.name, user.phone));
+  };
+
+  const update = (event) => {
+   
+    event.preventDefault();
+    setUser({edit: false, name: props.name, phone: props.phone});
+
+  };
+
+  const cancel = (event) => {
+      event.preventDefault();
+      setUser({edit: true});
+    
+ 
+  };
+  
+
+  const resend = () => dispatch(resendUser(props.id, props.name, props.phone));
+  const remove = () => dispatch(deleteUser(props.id));
+
+  return (
+    <tr>
+      <td>{props.index}</td>
+      {user.edit && <td>{props.name}</td>}
+      {!user.edit && (
+        <td>
+          <input
+            type="text"
+            value={user.name}
+            onChange={handleChange}
+            name="name"
+          />
+        </td>
+      )}
+     {user.edit && <td>{props.phone}</td>}
+      {!user.edit && (
+      <td>
+        <input
+          type="text"
+          value={user.phone}
+          onChange={handleChange}
+          name="phone"
+        />
+      </td>
+)}
+      <td>
+        {props.sent && user.edit && (
+          <div>
+            <button className="btn btn-success" onClick={update}>
+              update
+            </button>
+            <button className="btn btn-danger" onClick={remove}>
+              Delete
+            </button>
+          </div>
+        )}
+         {props.sent && !user.edit && (
+          <div>
+            <button className="btn btn-primary" onClick={handleSubmit}>
+              Save
+            </button>
+            <button className="btn btn-warning" onClick={cancel}>
+              Cancel
+            </button>
+          </div>
+        )}
+        {!props.sent && (
+          <button className="btn btn-warning" onClick={resend}>
+            send again
+          </button>
+        )}
+      </td>
+    </tr>
+  );
 }
