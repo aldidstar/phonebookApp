@@ -31,7 +31,6 @@ export const loadUser = (page) => {
     return axios
       .get("http://localhost:3000/api/phonebooks")
       .then((users) => {
-          console.log(users.data.dataplus.length)
         dispatch(drawLoadUser(users.data.dataplus.slice((currentPage-1) * 3, currentPage * 3)));
       })
       .catch(() => {
@@ -81,7 +80,7 @@ const failedResendUser = () => ({
   type: FAILED_RESEND_USER,
 });
 
-export const resendUser = (id, name, phone) => (dispatch) => {
+export const resendUser = (id, name, phone) =>  (dispatch) => {
   return axios
     .post("http://localhost:3000/api/phonebooks", { id, name, phone })
     .then(function (response) {
