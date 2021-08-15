@@ -17,15 +17,11 @@ export default function Pagination() {
     shallowEqual
   );
 
-  let totalData = [];
-  users.forEach((item) => {
-    totalData.push(item.total);
-  });
 
   // Logic for displaying page numbers
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalData[0] / 3); i++) {
+  for (let i = 1; i <= Math.ceil(users.length / 3); i++) {
     pageNumbers.push(i);
   }
 

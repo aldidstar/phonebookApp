@@ -21,6 +21,7 @@ export default function Pagination() {
   users.forEach((item) => {
     totalData.push(item.total);
   });
+ 
 
   // Logic for displaying page numbers
   const pageNumbers = [];
