@@ -8,7 +8,7 @@ import {
   DRAW_EDIT_USER,
   SUCCESS_EDIT_USER,
   FAILED_EDIT_USER,
-  FILTER_USER
+
 } from "../constants";
 
 const users = (state = [], action) => {
@@ -20,7 +20,7 @@ const users = (state = [], action) => {
           name: item.name,
           phone: item.phone,
           sent: true,
-          total: item.total
+         
         };
       });
 
@@ -71,13 +71,7 @@ const users = (state = [], action) => {
         
     
     case FAILED_EDIT_USER:
-        case FILTER_USER:
-            return state.filter((item) => {
-              if (action.name) {
-               return  item.name.includes(action.name)}
-               if (action.phone) {
-                return  item.phone.includes(action.phone)}
-              })
+       
 
     default:
       return state;

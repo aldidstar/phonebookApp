@@ -11,7 +11,8 @@ import {
   DRAW_EDIT_USER,
   SUCCESS_EDIT_USER,
   FAILED_EDIT_USER,
-  FILTER_USER
+  FILTER_USER,
+  UPDATE_FILTER
 } from "../constants";
 
 import axios from "axios";
@@ -21,17 +22,30 @@ const drawLoadUser = (users) => ({
   users,
 });
 
+export const setPageFilter = (page, name, phone, totalData) => ({
+  type: UPDATE_FILTER,
+  page, name, phone, totalData
+})
+
 const failedLoadUser = () => ({
   type: FAILED_LOAD_USER,
 });
 
-export const loadUser = (page) => {
-    var currentPage = page || 1
+export const loadUser = (page= 1, name = "", phone = "") => {
+  const limit = 3
+    let offset = (page - 1) * limit
+   
   return (dispatch) => {
     return axios
-      .get("http://localhost:3000/api/phonebooks")
+      .get("http://localhost:3000/api/phonebooks",{
+        params: {
+          name, phone, limit, offset
+        }
+      })
       .then((users) => {
-        dispatch(drawLoadUser(users.data.dataplus.slice((currentPage-1) * 3, currentPage * 3)));
+        console.log("tes",users.data)
+        dispatch(drawLoadUser(users.data.data));
+        dispatch(setPageFilter(page, name, phone, users.data.count))
       })
       .catch(() => {
         dispatch(failedLoadUser());

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 
-import { addUser } from '../../actions/users'
+import { addUser, loadUser } from '../../actions/users'
 
 export default function UserAdd () {
  
@@ -26,6 +26,7 @@ export default function UserAdd () {
     event.preventDefault();
     setUser(initialUserState)
     dispatch(addUser(user.name,user.phone));
+    dispatch(loadUser())
   };
   
 

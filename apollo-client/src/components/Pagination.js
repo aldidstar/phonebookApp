@@ -1,36 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { loadUser } from "../actions/users";
 
 export default function Pagination() {
-  const initialUserState = {
-    currentPage: 1,
-  };
+  
 
-  const [user, setUser] = useState(initialUserState);
+
 
   const dispatch = useDispatch();
-  const { users } = useSelector(
+  const { pageFilter } = useSelector(
     (state) => ({
       users: state.users,
+      pageFilter: state.pageFilter
     }),
     shallowEqual
   );
 
-
+// console.log( dispatch(loadUser(users.count)))
   // Logic for displaying page numbers
-  const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(users.length / 3); i++) {
+
+  const pageNumbers = [];
+  console.log(pageFilter)
+
+  for (let i = 1; i <= Math.ceil(pageFilter.totalData / 3); i++) {
     pageNumbers.push(i);
   }
 
   const renderPageNumbers = pageNumbers.map((number, index) => {
     return (
       <li
-        className={
-          user.currentPage === index + 1 ? "page-item active" : "page-item"
-        }
+        className={pageFilter.page === index + 1 ? 'page-item active': 'page-item'}
         key={index}
       >
         <a
@@ -39,7 +39,7 @@ export default function Pagination() {
           onClick={(e) => {
             e.preventDefault();
             dispatch(loadUser(index + 1));
-            setUser({ currentPage: index + 1 });
+          
           }}
         >
           {" "}
@@ -53,15 +53,15 @@ export default function Pagination() {
     <nav id="pagination" aria-label="...">
       <ul className="pagination">
         <li
-          className={user.currentPage < 2 ? "page-item disabled" : "page-item"}
+          className={pageFilter.page < 2 ? "page-item disabled" : "page-item"}
         >
           <a
             className="page-link"
             href="/"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(loadUser(user.currentPage - 1));
-              setUser({ currentPage: user.currentPage - 1 });
+              dispatch(loadUser(pageFilter.page - 1))
+              
             }}
           >
             Previous
@@ -70,8 +70,8 @@ export default function Pagination() {
         {renderPageNumbers}
         <li
           className={
-            user.currentPage < pageNumbers.length
-              ? "page-item  "
+            pageFilter.page < pageNumbers.length
+              ? "page-item"
               : "page-item disabled"
           }
         >
@@ -80,8 +80,8 @@ export default function Pagination() {
             href="/"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(loadUser(user.currentPage + 1));
-              setUser({ currentPage: user.currentPage + 1 });
+              dispatch(loadUser(pageFilter.page + 1))
+           
             }}
           >
             Next

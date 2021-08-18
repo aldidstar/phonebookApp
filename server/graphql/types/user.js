@@ -1,11 +1,12 @@
 const {GraphQLObjectType,
     GraphQLNonNull,
     GraphQLID,
-    GraphQLString
+    GraphQLString,
+    GraphQLInt
 } = require('graphql');
 
 // User Type
-exports.userType = new GraphQLObjectType({
+ exports.userType = new GraphQLObjectType({
   name: 'user',
   fields: function () {
     return {
@@ -18,6 +19,8 @@ exports.userType = new GraphQLObjectType({
       phone: {
         type: GraphQLString
       }
+   
     }
   }
 });
+

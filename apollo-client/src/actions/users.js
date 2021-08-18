@@ -14,7 +14,7 @@ import {
     DRAW_EDIT_USER,
     SUCCESS_EDIT_USER,
     FAILED_EDIT_USER,
-    FILTER_USER
+    UPDATE_FILTER
   } from "../constants";
   
   const API_URL = 'http://localhost:3000/graphql'
@@ -27,27 +27,40 @@ const request = new ApolloClient({
     type: DRAW_LOAD_USER,
     users,
   });
+
+  export const setPageFilter = (page, name, phone, totalData) => ({
+    type: UPDATE_FILTER,
+    page, name, phone, totalData
+  })
   
   const failedLoadUser = () => ({
     type: FAILED_LOAD_USER,
   });
   
-  export const loadUser = (page) => {
+  export const loadUser = (page= 1, name = "", phone = "") => {
+    const limit = 3
+    let pageReal = (page - 1) * limit
+    let searchName = name || ""
+    let searchPhone = phone || ""
     const usersQuery = gql`
     query {
-        users{
-        id
-        name
-        phone
-        }
+      users(pagination: {offset:${pageReal}, limit: ${limit},  name: "${searchName}", phone: "${searchPhone}"}) {
+        
+        items {
+          id
+         name
+         phone
+        } 
+        count
+      }
     }`;
     return (dispatch) => {
       return request.query({
         query: usersQuery,
     })
-        .then((response) => {
-            
-          dispatch(drawLoadUser(response.data.users));
+        .then((response) => {  
+          dispatch(drawLoadUser(response.data.users.items));
+          dispatch(setPageFilter(page, name, phone, response.data.users.count))
         })
         .catch(() => {
           dispatch(failedLoadUser());
@@ -222,9 +235,4 @@ const request = new ApolloClient({
     };
   };
   
-  export const filterUser = (name, phone) => ({
-    type: FILTER_USER,
-    name,
-    phone,
-  });
-  
+ 

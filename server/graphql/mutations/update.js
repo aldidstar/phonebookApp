@@ -1,9 +1,9 @@
 const {GraphQLNonNull, GraphQLString} = require('graphql');
-var {userType} = require('../types/user');
+var UserType = require('../types/user');
 var services = require('../../services');
 
 exports.update = {
-    type: userType,
+    type: UserType.userType,
     args: {
       id: {
         type: new GraphQLNonNull(GraphQLString),

@@ -6,13 +6,24 @@ phonebooksRead:  (req, res) => {
     const userReference = firebase.database().ref("/Contacts/")
     userReference.on("value", function(snapshot) {
       console.log(snapshot.val());
-      const data = Object.keys(snapshot.val()).map((o) =>
+      let data = Object.keys(snapshot.val()).map((o) =>
       Object.assign({ id: o }, snapshot.val()[o])
     );
-    const dataplus = Object.keys(data).map((o) =>
-      Object.assign({ total: data.length }, data[o])
-    );
-      res.json({dataplus});
+    data = data.filter((item) => {
+      if (req.query.name && req.query.phone) {
+        return item.name.includes(req.query.name) && item.phone.includes(req.query.phone);
+      } else if (req.query.name) {
+        return item.name.includes(req.query.name);
+      } else if (req.query.phone) {
+        return item.phone.includes(req.query.phone);
+      } else {
+        return item;
+      }
+    });
+    let totalData = data.length
+  console.log(req.query.offset)
+    data = data.slice(parseInt(req.query.offset), parseInt(req.query.offset) + parseInt(req.query.limit))
+      res.json({data, count: totalData});
       userReference.off("value");
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);

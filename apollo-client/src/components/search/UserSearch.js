@@ -1,33 +1,28 @@
 import React, { useState } from 'react'
-import { filterUser } from '../../actions/users'
+import {  loadUser,  } from "../../actions/users";
 import { useDispatch } from 'react-redux';
 
 
 export default function UserSearch () {
+  const dispatch = useDispatch();
 
     const initialUserState = {
-        username: "",
-        name: "",
-        age: ""
+      name: "",
+      phone: "",
     };
 
-    const [user, setUser] = useState(initialUserState);
-  
-    const dispatch = useDispatch();
-   
-  
+    const [{ name, phone }, setState] = useState(initialUserState);
 
-  const handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    setUser({...user, [name]: value})
-  }
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setUser(initialUserState)
-    dispatch(filterUser(user.name,user.phone));
-  };
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setState((prevState) => ({ ...prevState, [name]: value }));
+    };
+  
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      dispatch(loadUser(1, name, phone));
+    };
 
 
 
@@ -45,7 +40,7 @@ export default function UserSearch () {
             <input
              
               type="text"
-              value={user.name}
+              value={name}
               onChange={handleChange}
               name="name"
             />
@@ -53,7 +48,7 @@ export default function UserSearch () {
             <input
               className="user-input"
               name="phone"
-              value={user.phone}
+              value={phone}
               onChange={handleChange}
             />
           </div>

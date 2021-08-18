@@ -1,6 +1,6 @@
 const firebase = require("firebase");
 
-const getUsers = () => {
+const getUsers = (limit, offset, name, phone) => {
   const userReference = firebase.database().ref("/Contacts/");
   return new Promise((resolve, reject) => {
     userReference.on(
@@ -10,10 +10,61 @@ const getUsers = () => {
         if (folders === null) {
           resolve([]);
         } else {
-          const data = Object.keys(folders).map((o) =>
+          let data = Object.keys(folders).map((o) =>
             Object.assign({ id: o }, folders[o])
           );
+          data = data.filter((item) => {
+            if (name && phone) {
+              return item.name.includes(name) && item.phone.includes(phone);
+            } else if (name) {
+              return item.name.includes(name);
+            } else if (phone) {
+              return item.phone.includes(phone);
+            } else {
+              return item;
+            }
+          });
+        
+          data = data.slice(offset, offset + limit)
+      
           resolve(data);
+        }
+        userReference.off("value");
+      },
+      (errorObject) => {
+        console.log("The read failed: " + errorObject.code);
+        reject("The read failed: " + errorObject.code);
+      }
+    );
+  });
+};
+
+const totalData = (name, phone) => {
+  const userReference = firebase.database().ref("/Contacts/");
+  return new Promise((resolve, reject) => {
+    userReference.on(
+      "value",
+      function (snapshot) {
+        const folders = snapshot.val();
+        if (folders === null) {
+          resolve([]);
+        } else {
+          let data = Object.keys(folders).map((o) =>
+            Object.assign({ id: o }, folders[o])
+          );
+
+          data = data.filter((item) => {
+            if (name && phone) {
+              return item.name.includes(name) && item.phone.includes(phone);
+            } else if (name) {
+              return item.name.includes(name);
+            } else if (phone) {
+              return item.phone.includes(phone);
+            } else {
+              return item;
+            }
+          });
+          resolve(data.length);
         }
         userReference.off("value");
       },
@@ -67,4 +118,4 @@ const deleteUser = (user) => {
   });
 };
 
-module.exports = { getUsers, createUser, updateUser, deleteUser };
+module.exports = { getUsers, createUser, updateUser, deleteUser, totalData };

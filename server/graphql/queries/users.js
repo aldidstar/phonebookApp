@@ -1,16 +1,29 @@
-const {GraphQLObjectType, GraphQLList} = require('graphql');
 var services = require('../../services');
-var userType = require('../types/user').userType;
+const {GraphQLInputObjectType, GraphQLInt}  = require('graphql');
+const UserType = require('../types/user');
+const PaginationArgType = require('../types/paginationParam');
+const PaginatedListType = require('../types/paginationOutput');
 
-// Query
-exports.queryType = new GraphQLObjectType({
-  name: 'Query',
-  fields: function () {
-    return {
-      users: {
-        type: new GraphQLList(userType),
-        resolve: services.getUsers
+
+const UserQueryType = {
+  users: {
+    type: PaginatedListType(UserType.userType),
+    args: {
+      pagination: {
+        type: PaginationArgType,
+        defaultValue: { offset: 3, limit: 3 }
+      },
+    },
+    resolve: (_, args) => {
+      const { offset, limit, name, phone } = args.pagination
+      return {
+        items: services.getUsers(limit, offset, name, phone),
+        count: services.totalData(name, phone)
       }
-    }
+
+    },
   }
-});
+}
+
+module.exports = UserQueryType
+
