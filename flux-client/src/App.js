@@ -3,6 +3,8 @@ import TableBox from "./component/TableBox";
 import {Container} from 'flux/utils';
 import TableStore from "./flux/TableStore";
 import TableActions from "./flux/TableActions";
+import pageFilter from "./flux/pageFilter";
+
 
 const convert = function (containerClass) {
   const tmp = containerClass;
@@ -19,13 +21,15 @@ class App extends Component {
 
   static getStores() {
     return [
-      TableStore
+      TableStore,
+      pageFilter
     ]
   }
 
   static calculateState(prevState) {
     return {
       phonebooks: TableStore.getState(),
+      pageFilter: pageFilter.getState(),
       onLoad : TableActions.loadUser,
       onAdd : TableActions.AddUser,
       onDelete : TableActions.DeleteUser,

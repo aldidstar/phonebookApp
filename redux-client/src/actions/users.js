@@ -43,7 +43,6 @@ export const loadUser = (page= 1, name = "", phone = "") => {
         }
       })
       .then((users) => {
-        console.log("tes",users.data)
         dispatch(drawLoadUser(users.data.data));
         dispatch(setPageFilter(page, name, phone, users.data.count))
       })
@@ -118,6 +117,8 @@ const failedDeleteUser = (id) => ({
 });
 
 export const deleteUser = (id) => (dispatch) => {
+  var result = window.confirm("want to delete ?");
+  if (result) {
   return axios
     .delete(`http://localhost:3000/api/phonebooks/${id}`)
     .then(function (response) {
@@ -129,7 +130,7 @@ export const deleteUser = (id) => (dispatch) => {
       console.error(error);
       dispatch(failedDeleteUser(id));
     });
-};
+}};
 
 const successEditUser = (response) => ({
   type: SUCCESS_EDIT_USER,

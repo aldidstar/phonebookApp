@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { resendUser, deleteUser, editUser } from "../actions/users";
+import { resendUser, deleteUser, editUser, loadUser } from "../actions/users";
 import { useDispatch } from "react-redux";
 
 
@@ -44,7 +44,11 @@ export default function UserItem(props) {
   
 
   const resend = () => dispatch(resendUser(props.id, props.name, props.phone));
-  const remove = () => dispatch(deleteUser(props.id));
+  const remove = (event) => { 
+    event.preventDefault();
+    dispatch(deleteUser(props.id))
+    dispatch(loadUser())
+   }
 
   return (
     <tr>

@@ -163,6 +163,8 @@ const request = new ApolloClient({
   });
   
   export const deleteUser = (id) => {
+    var result = window.confirm("want to delete ?");
+  if (result) {
     const deleteQuery = gql`
     mutation removeUser($id: String!) {
         removeUser(id: $id) {
@@ -184,7 +186,7 @@ const request = new ApolloClient({
         console.error(error);
         dispatch(failedDeleteUser(id));
       });
-  }};
+  }}};
   
   const successEditUser = (response) => ({
     type: SUCCESS_EDIT_USER,

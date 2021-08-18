@@ -18,7 +18,9 @@ export default class TableSearch extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.props.filter(this.state.name, this.state.phone);
+    this.props.load(1,this.state.name, this.state.phone);
+   
+
   }
 
 

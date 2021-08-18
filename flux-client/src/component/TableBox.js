@@ -16,8 +16,8 @@ export default class TableBox extends React.Component {
       <div>
         <Navbar />
         <div className="container-chat">
-          <TableAdd add={this.props.onAdd} />
-          <TableSearch filter={this.props.onFilter} />
+          <TableAdd add={this.props.onAdd}  />
+          <TableSearch filter={this.props.onFilter} load={this.props.onLoad} />
 
           <TableList
             phonebooks={this.props.phonebooks}
@@ -26,7 +26,7 @@ export default class TableBox extends React.Component {
             edit={this.props.onEdit}
 
             />
-       <Pagination page={this.props.onLoad}  phonebooks={this.props.phonebooks}  />
+       <Pagination page={this.props.onLoad}  phonebooks={this.props.phonebooks} pageFilter={this.props.pageFilter} load={this.props.onLoad}  />
           <br></br>
         </div>
       </div>

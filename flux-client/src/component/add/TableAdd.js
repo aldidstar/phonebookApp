@@ -24,6 +24,7 @@ export default class TableAdd extends React.Component {
     event.preventDefault();
     this.props.add(this.state.name, this.state.phone);
     this.setState({ name: "", phone: ""});
+    
   }
 
   addForm(event) {

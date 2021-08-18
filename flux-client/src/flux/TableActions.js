@@ -9,12 +9,25 @@ const Actions = {
       phonebooks,
     });
   },
+setPageFilter(page, name, phone, totalData) {
+dispatcher.dispatch({
+    type: "UPDATE_FILTER",
+    page, name, phone, totalData
+  });
+},
 
-  loadUser(page) {
-    var currentPage = page || 1
-    axios.get("http://localhost:3000/api/phonebooks")
+  loadUser(page= 1, name = "", phone = "") {
+    const limit = 3
+    let offset = (page - 1) * limit
+    axios.get("http://localhost:3000/api/phonebooks", {
+      params: {
+        name, phone, limit, offset
+      }
+    })
       .then((phonebooks) => {
-      Actions.drawUser(phonebooks.data.dataplus.slice((currentPage-1) * 3, currentPage * 3))
+        console.log(phonebooks.data.count)
+      Actions.drawUser(phonebooks.data.data)
+      Actions.setPageFilter(page, name, phone, phonebooks.data.count)
       })
       .catch((err) => {
         console.log(err)
@@ -47,6 +60,7 @@ const Actions = {
   .post("http://localhost:3000/api/phonebooks",{id,name,phone})
   .then((phonebooks) => {
     Actions.successAddUser(phonebooks);
+    Actions.loadUser(phonebooks.data.data)
   })
   .catch((err) => {
     Actions.failedAddUser(id, name, phone)
@@ -91,6 +105,8 @@ const Actions = {
       })},
 
   DeleteUser(id){
+    var result = window.confirm("want to delete ?");
+  if (result) {
     axios
   .delete(`http://localhost:3000/api/phonebooks/${id}`)
   .then((phonebooks) => {
@@ -101,7 +117,7 @@ const Actions = {
     Actions.failedDeleteUser(id)
     throw err
   });
-  },
+  }},
 
   FilterUser(name, phone) {
     dispatcher.dispatch({
